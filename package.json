@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "mobx": "^5.1.2",
     "mobx-preact": "^3.0.0",
