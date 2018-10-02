@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader'
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Spinner from 'components/Spinner';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Spinner />
       </div>
     );
   }

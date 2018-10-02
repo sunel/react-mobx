@@ -1,9 +1,18 @@
-const { compose } = require('react-app-rewired');
-const rewireReactHotLoader = require('react-app-rewire-hot-loader');
-const rewireMobX = require('react-app-rewire-mobx');
+const { compose, injectBabelPlugin, addWebpackAlias } = require('./scripts');
 const path = require('path');
 const uniq = require('lodash/uniq');
 const concat = require('lodash/concat');
+
+const reactHotLoader = function(config, env) {
+  if (env === 'production') {
+    return config;
+  }
+  return injectBabelPlugin(['react-hot-loader/babel'], config);
+}
+
+const rewireMobX = function(config, env) {
+  return injectBabelPlugin(["@babel/plugin-proposal-decorators", { legacy: true }], config);
+}
 
 module.exports = function override(config, env) {
 
@@ -11,19 +20,23 @@ module.exports = function override(config, env) {
     path.resolve(__dirname, 'src')
   ]));
 
+  const alias = {};
+
   if (env === "production") {
     console.log("⚡ Production build with Preact");
-    config.resolve.alias = Object.assign(config.resolve.alias, {
+    Object.assign(alias, {
       "react": "preact-compat",
       "react-dom": "preact-compat",
       "mobx-react": "mobx-preact"
     });
   }
 
+  addWebpackAlias(alias, config);
+
   const rewires = compose(
-    rewireReactHotLoader,
+    reactHotLoader,
     rewireMobX
   );
-
+  
   return rewires(config, env);
 }
