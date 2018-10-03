@@ -1,6 +1,12 @@
 {
     "compilerOptions": {
         "experimentalDecorators": true,
-        "allowJs": true
+        "allowJs": true,
+        "baseUrl": ".",  // all paths are relative to the baseUrl
+        "paths": {
+            "~/*" : ["*"],   // resolve any `~/foo/bar` to `<baseUrl>/foo/bar`
+            "containers/*": ["./src/containers/*"],
+            "components/*": ["./src/components/*"],
+        }
     }
 }

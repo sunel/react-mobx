@@ -10,7 +10,7 @@ const reactHotLoader = function(config, env) {
   return injectBabelPlugin(['react-hot-loader/babel'], config);
 }
 
-const rewireMobX = function(config, env) {
+const decorators = function(config, env) {
   return injectBabelPlugin(["@babel/plugin-proposal-decorators", { legacy: true }], config);
 }
 
@@ -26,8 +26,7 @@ module.exports = function override(config, env) {
     console.log("⚡ Production build with Preact");
     Object.assign(alias, {
       "react": "preact-compat",
-      "react-dom": "preact-compat",
-      "mobx-react": "mobx-preact"
+      "react-dom": "preact-compat"
     });
   }
 
@@ -35,7 +34,7 @@ module.exports = function override(config, env) {
 
   const rewires = compose(
     reactHotLoader,
-    rewireMobX
+    decorators
   );
   
   return rewires(config, env);

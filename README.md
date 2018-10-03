@@ -1,1 +1,1 @@
-# A React, Mobx boilerplate.
+# A React, Redux boilerplate.

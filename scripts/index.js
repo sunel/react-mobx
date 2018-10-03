@@ -1,5 +1,8 @@
 const path = require('path');
 const paths = require('./utils/paths');
+const fs = require('fs');
+
+const rootPath = fs.realpathSync(process.cwd());
 
 const loaderNameMatches = function(rule, loader_name) {
   return rule && rule.loader && typeof rule.loader === 'string' &&
@@ -9,6 +12,10 @@ const loaderNameMatches = function(rule, loader_name) {
 
 const babelLoaderMatcher = function(rule) {
   return loaderNameMatches(rule, 'babel-loader');
+};
+
+const eslintLoaderMatcher = function(rule) {
+  return loaderNameMatches(rule, 'eslint-loader');
 };
 
 const getLoader = function(rules, matcher) {
@@ -25,6 +32,10 @@ const getLoader = function(rules, matcher) {
 
 const getBabelLoader = function(rules) {
   return getLoader(rules, babelLoaderMatcher);
+};
+
+const getEslintLoader = function(rules) {
+  return getLoader(rules, eslintLoaderMatcher);
 };
 
 const injectBabelPlugin = function(pluginName, config) {
@@ -63,13 +74,25 @@ const compose = function(...funcs) {
   return funcs.reduce((a, b) => (config, env) => a(b(config, env), env));
 };
 
+const existsInRoot = (name) => (
+  fs.existsSync(
+    path.join(
+      rootPath,
+      name
+    )
+  )
+)
+
 
 module.exports = {
+  rootPath,
   getLoader,
   loaderNameMatches,
   getBabelLoader,
+  getEslintLoader,
   injectBabelPlugin,
   addWebpackAlias,
   compose,
-  paths
+  paths,
+  existsInRoot
 };

@@ -1,8 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import './index.css';
-import App from './App';
+import Root from 'containers/Root';
+import configureStore from './store/configureStore'
 import registerServiceWorker from './registerServiceWorker';
+import rootSaga from './sagas';
+import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const store = configureStore(window.__INITIAL_STATE__);
+store.runSaga(rootSaga);
+
+const mount = (store) => (
+    <Root store={store} >
+        <App />
+    </Root>
+);
+
+render(mount(store), document.getElementById('root'));
 registerServiceWorker();
