@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router, RouterContext } from 'react-router';
+import { BrowserRouter as Router, StaticRouter } from 'react-router-dom';
 import DevTools from './DevTools';
 
 export default class Root extends Component {
@@ -11,7 +11,7 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <div>
-          {type === 'server' ? <RouterContext {...renderProps} /> : <Router children={this.props.children} />}
+          {type === 'server' ? <StaticRouter {...renderProps} /> : <Router children={this.props.children} />}
           <DevTools />
         </div>
       </Provider>

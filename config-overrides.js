@@ -20,7 +20,9 @@ module.exports = function override(config, env) {
     path.resolve(__dirname, 'src')
   ]));
 
-  const alias = {};
+  const alias = {
+    '~': path.resolve(__dirname, 'src')
+  };
 
   if (env === "production") {
     console.log("⚡ Production build with Preact");
